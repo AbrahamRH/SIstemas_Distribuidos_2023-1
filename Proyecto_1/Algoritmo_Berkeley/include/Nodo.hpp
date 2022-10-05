@@ -4,13 +4,13 @@
 #include <iostream>
 #include <vector>
 #include <ctime>
-#include "Algoritmos.hpp"
-
-
+//#include "Algoritmos.hpp"
+//
+enum SyncTypes {BERKELEY, CRISTIAN};
 
 class Nodo {
 		private:
-			std::vector<Nodo> clients;
+			std::vector<Nodo*> clients;
 			bool master;
 			time_t localtime;
 		public:
@@ -19,7 +19,7 @@ class Nodo {
 			void synchronization(SyncTypes type);
 			void setLocaltime(time_t localtime);
 			time_t getLocaltime();
-			void addConnection(Nodo client);
+			void addConnection(Nodo* client);
 };
 
 

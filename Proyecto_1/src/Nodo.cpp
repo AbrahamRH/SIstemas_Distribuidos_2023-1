@@ -33,16 +33,15 @@ void Nodo::synchronization(SyncTypes type)
 		}
 
 		int promedio = sumDifference / numClients;
-		std::cout << promedio << std::endl;
 
 		//Asignamos este valor a la hora local del servidor y luego la repartimos a los clientes
-
 		// 0 : Diferencia entre la hora del servidor y la hora del servidor
 		this->setLocaltime(this->getLocaltime() + promedio - (0) );
 
 		int c = 0;
 		for( Nodo* client : this->clients )
 		{
+			// Ajuste de hora = Hora local + ( promedio - diferencia )
 			client->setLocaltime(client->getLocaltime() + promedio - clientsTimeDiff[c]);
 			c++;
 		}

@@ -15,7 +15,7 @@ class Nodo {
 			time_t localtime;
 		public:
 			Nodo() = default;
-			Nodo(time_t time = NULL, bool master = false);
+			Nodo(time_t time = 0, bool master = false);
 			void synchronization(SyncTypes type);
 			void setLocaltime(time_t localtime);
 			time_t getLocaltime();

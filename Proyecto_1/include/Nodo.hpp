@@ -9,19 +9,28 @@
 enum SyncTypes {BERKELEY, CRISTIAN};
 
 class Nodo {
-		private:
-			std::vector<Nodo*> clients;
-			bool master;
-			time_t localtime;
 		public:
+			time_t localtime;
 			Nodo() = default;
-			Nodo(time_t time = 0, bool master = false);
-			void synchronization(SyncTypes type);
+			Nodo(time_t time = 0);
 			void setLocaltime(time_t localtime);
 			time_t getLocaltime();
-			void addConnection(Nodo* client);
 };
 
+class Client : public Nodo {
+	public:
+		Client(time_t time):Nodo(time){}
+		void requestTime();
+};
+
+class Server : public Nodo {
+	private:
+		std::vector<Client*> clients;
+	public:
+		Server(time_t time):Nodo(time){}
+		void addConnection(Client* client);
+		void synchronization(SyncTypes type);
+};
 
 
 #endif //!__NODO_HPP__

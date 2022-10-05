@@ -11,9 +11,9 @@ int main()
 	/*
 	 * Creando los nodos que simularan los clientes y el servidor
 	 */
-	Nodo cliente1(time(NULL)+10);
-	Nodo cliente2(time(NULL)-20);
-	Nodo servidor(time(NULL), true);
+	Client cliente1(time(NULL)+10);
+	Client cliente2(time(NULL)-20);
+	Server servidor(time(NULL));
 
 	cout << "===============================" << endl;
 	cout << "Antes del algoritmo de Berkeley" << endl;

@@ -1,9 +1,8 @@
 #include "../include/Nodo.hpp"
 
 
-Nodo::Nodo(time_t time, bool master)
+Nodo::Nodo(time_t time)
 {
-	this->master = master;
 	this->localtime = time;
 }
 
@@ -17,7 +16,7 @@ time_t Nodo::getLocaltime()
 	return this->localtime;
 }
 
-void Nodo::synchronization(SyncTypes type)
+void Server::synchronization(SyncTypes type)
 {
 	if( type == BERKELEY )
 	{
@@ -26,7 +25,7 @@ void Nodo::synchronization(SyncTypes type)
 		std::vector<int> clientsTimeDiff;
 
 		// Obteniendo una diferencia entre el tiempo del cliente y del servidor
-		for( Nodo* client : this->clients )
+		for( Client* client : this->clients )
 		{
 			clientsTimeDiff.push_back(client->getLocaltime() - this->getLocaltime());
 			sumDifference += client->getLocaltime() - this->getLocaltime();
@@ -39,7 +38,7 @@ void Nodo::synchronization(SyncTypes type)
 		this->setLocaltime(this->getLocaltime() + promedio - (0) );
 
 		int c = 0;
-		for( Nodo* client : this->clients )
+		for( Client* client : this->clients )
 		{
 			// Ajuste de hora = Hora local + ( promedio - diferencia )
 			client->setLocaltime(client->getLocaltime() + promedio - clientsTimeDiff[c]);
@@ -56,8 +55,13 @@ void Nodo::synchronization(SyncTypes type)
 		exit(0);
 }
 
-void Nodo::addConnection(Nodo* client)
+
+
+void Server::addConnection(Client* client)
 {
 	this->clients.push_back(client);
 }
 
+void Client::requestTime()
+{
+}

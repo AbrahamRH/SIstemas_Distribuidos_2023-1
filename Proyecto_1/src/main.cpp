@@ -34,6 +34,7 @@ int main(int argc, char** argv)
 
 void simulationCristian()
 {
+	// Creamos dos nodos cliente y servidor  el cliente esta adelantado
 	Server servidor(time(NULL));
 	Client cliente1(time(NULL)+5);
 	int inc = 0;
@@ -51,6 +52,7 @@ void simulationCristian()
 	cout << "Tiempo de espera a la sincronización del reloj cliente" << endl;
 	cout << "=================================" << endl;
 	cout << endl;
+
 	//Simulamos que detenemos el timer del cliente hasta sincronizarse con el servidor
 	while (inc < detener-2)
 	{
@@ -68,7 +70,6 @@ void simulationCristian()
 	cout << endl;
 	cout <<"Servidor:  "<< formatDate(servidor.getLocaltime()) << endl;
 	cout <<"Cliente 1: "<< formatDate(cliente1.getLocaltime()) << endl;
-
 }
 
 void simulationBerkeley()
@@ -88,11 +89,13 @@ void simulationBerkeley()
 	cout <<"Cliente 1: "<< formatDate(cliente1.getLocaltime()) << endl;
 	cout <<"Cliente 2: "<< formatDate(cliente2.getLocaltime()) << endl;
 
-
+	/* -------------------------------*/
+	// Realizamos la conexiones entre los nodos cliente al servidor
+	/* -------------------------------*/
 	servidor.addConnection(&cliente1);
 	servidor.addConnection(&cliente2);
 
-	//Realizamos la sincronización con el algoritmo
+	//Realizamos la sincronización con el algoritmo de Berkeley
 	servidor.synchronization();
 
 	cout << "=================================" << endl;
@@ -102,7 +105,6 @@ void simulationBerkeley()
 	cout <<"Servidor:  "<< formatDate(servidor.getLocaltime()) << endl;
 	cout <<"Cliente 1: "<< formatDate(cliente1.getLocaltime()) << endl;
 	cout <<"Cliente 2: "<< formatDate(cliente2.getLocaltime()) << endl;
-
 }
 
 string formatDate(time_t timestamp)
@@ -111,6 +113,5 @@ string formatDate(time_t timestamp)
 	time_t fecha = timestamp;
 	timeinfo = localtime(&fecha);
 	return asctime(timeinfo);
-
 }
 

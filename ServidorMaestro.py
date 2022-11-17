@@ -41,6 +41,10 @@ if __name__ == "__main__":
         else:
             break
 
+    print("")
+    print("="*50)
+    print("Información de la conexión")
+    print("="*50)
     servidor.con.printSockInfo()
 
 

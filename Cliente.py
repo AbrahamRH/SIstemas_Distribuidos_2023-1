@@ -20,5 +20,10 @@ if __name__ == "__main__":
     cliente = Cliente()
     cliente.requestConnection("",65000)
     cliente.requestChunkInfo("pedidos.txt",0)
+
+    print("")
+    print("="*50)
+    print("Información de la conexión")
+    print("="*50)
     cliente.con.printSockInfo()
 

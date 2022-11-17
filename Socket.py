@@ -9,6 +9,7 @@
 
 import socket
 import socketserver
+import errno
 
 class Socket: 
     s_id = 0
@@ -23,6 +24,8 @@ class Socket:
             self.sock = sock
 
     def sockConnect(self, host, port):
+        self.host = host
+        self.port = port
         self.sock.connect((host,port))
         self.info.append("conexión en: " + str(host) + " " + str(port))
 
@@ -39,14 +42,22 @@ class Socket:
         self.info.append("Socket aceptando peticiones en: " + repr(tup))
 
     def sockSend(self,msg):
-        self.sock.sendall(bytes(msg,'utf-8'))
-        self.info.append("Realizando envio de  mensaje: " + str(msg))
+        try:
+            self.sock.sendall(bytes(msg,'utf-8'))
+            self.info.append("Realizando envio de  mensaje: " + str(msg))
+        except BrokenPipeError as e:
+            print(e)
+            print("No se ha podido enviar mensaje: \"" + str(msg) + "\"" + "\n")
 
     def sockRecv(self):
-        datos = self.conn.recv(1024)
-        if not datos: return
-        self.info.append("Socket recibiendo datos: " + (datos.decode("utf-8")))
-        return datos.decode("utf-8")
+        try:
+            datos = self.conn.recv(1024)
+            if not datos: return
+            self.info.append("Socket recibiendo datos: " + (datos.decode("utf-8")))
+            return datos.decode("utf-8")
+        except OSError as e:
+            print(e)
+            print("No se ha podido recibir mensaje.\n")
 
     def printSockInfo(self):
         for i in self.info:

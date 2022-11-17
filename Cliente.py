@@ -13,6 +13,8 @@ class Cliente:
         self.con.sockSend(filename)
         self.con.sockSend(",")
         self.con.sockSend(str(chunkIndex))
+        test = self.con.sockRecv()
+        return test
 
 if __name__ == "__main__":
     cliente = Cliente()

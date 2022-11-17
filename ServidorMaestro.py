@@ -4,8 +4,8 @@ import random
 class Maestro:
     def __init__(self, host, port):
         self.chunkIndex = 0
-        self.con = Socket()
         self.namespace = {}  # [ind] = (handler, ubicación)
+        self.con = Socket()
         self.con.sockBind(host, port)
         self.con.sockAccept()
 
@@ -25,6 +25,11 @@ class Maestro:
         if name in chunk[1].split("/"):
             return chunk
 
+    def giveData(self, chunkInfo):
+        handler, route = chunkInfo
+        self.con.sockSend(str(handler))
+        self.con.sockSend(",")
+        self.con.sockSend(route)
 
 if __name__ == "__main__":
     servidor = Maestro("", 65000)
@@ -32,7 +37,7 @@ if __name__ == "__main__":
     while True:
         d = servidor.listenRequests()
         if d is not None:
-            newData = servidor.processData(d)
+            servidor.giveData(servidor.processData(d))
         else:
             break
 

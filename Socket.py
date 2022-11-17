@@ -10,7 +10,6 @@
 import socket
 import socketserver
 
-
 class Socket: 
     s_id = 0
     def __init__(self, sock = None):
@@ -39,7 +38,7 @@ class Socket:
         self.conn = tup[0]
         self.info.append("Socket aceptando peticiones en: " + repr(tup))
 
-    def enviar(self,msg):
+    def sockSend(self,msg):
         self.sock.sendall(bytes(msg,'utf-8'))
         self.info.append("Realizando envio de  mensaje: " + str(msg))
 

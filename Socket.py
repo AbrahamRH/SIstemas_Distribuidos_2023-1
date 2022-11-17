@@ -45,8 +45,8 @@ class Socket:
     def sockRecv(self):
         datos = self.conn.recv(1024)
         if not datos: return
-        self.info.append("Socket recibiendo datos: " + repr(datos))
-        return datos
+        self.info.append("Socket recibiendo datos: " + (datos.decode("utf-8")))
+        return datos.decode("utf-8")
 
     def printSockInfo(self):
         for i in self.info:

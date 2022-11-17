@@ -11,13 +11,12 @@ class Cliente:
 
     def requestChunkInfo(self, filename, chunkIndex):
         self.con.sockSend(filename)
-        self.con.sockSend(chunkIndex)
-        test = self.con.sockRecv()
-        return test
+        self.con.sockSend(",")
+        self.con.sockSend(str(chunkIndex))
 
 if __name__ == "__main__":
     cliente = Cliente()
-    cliente.requestConnection("",44000)
-    cliente.requestChunkInfo("pedidos.txt",1)
+    cliente.requestConnection("",65000)
+    cliente.requestChunkInfo("pedidos.txt",0)
     cliente.con.printSockInfo()
 

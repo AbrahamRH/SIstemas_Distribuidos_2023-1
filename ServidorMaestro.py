@@ -38,6 +38,5 @@ class Maestro:
     def giveData(self, chunkInfo):
         handler, route = chunkInfo
         client = self.socket.getNewSocket()
-        self.socket.sockSend(str(handler), client[0])
-        self.socket.sockSend(",", client[0])
-        self.socket.sockSend(route, client[0])
+        data = str(handler) + "," + route
+        self.socket.sockSend(data, client[0])

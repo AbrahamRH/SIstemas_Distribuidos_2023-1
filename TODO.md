@@ -1,6 +1,7 @@
 # Todo
 
-[] Server.start()
 [x] Mensajes de conexiones
-[] Eliminar sock.info
-[] Multithreading(?)
+[ ] Server.start()
+[x] Eliminar sock.info
+[ ] Documentación
+[ ] Multithreading(?)

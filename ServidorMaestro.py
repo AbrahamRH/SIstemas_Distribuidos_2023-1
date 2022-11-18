@@ -1,3 +1,10 @@
+##
+# @file nodo.py
+# @brief Implementación de la clase del servidor maestro
+# @author AbrahamRH, Fernanda
+# @version 1
+# @date 2022-11-16
+
 from Socket import Socket
 import random
 
@@ -5,12 +12,15 @@ class Maestro:
     def __init__(self, host, port):
         self.chunkIndex = 0
         self.namespace = {}  # [ind] = (handler, ubicación)
-        self.con = Socket()
-        self.con.sockBind(host, port)
-        self.con.sockAccept()
+        self.socket = Socket()
+        self.socket.sockBind(host, port)
+        self.socket.sockAccept()
+
+    def __del__(self):
+        self.socket.sockClose()
 
     def listenRequests(self):
-        return self.con.sockRecv()
+        return self.socket.sockRecv()
 
     def addFile(self, file):
         self.namespace[self.chunkIndex] = (random.randint(1,1000000),"/ruta/" + file)
@@ -27,25 +37,7 @@ class Maestro:
 
     def giveData(self, chunkInfo):
         handler, route = chunkInfo
-        self.con.sockSend(str(handler))
-        self.con.sockSend(",")
-        self.con.sockSend(route)
-
-if __name__ == "__main__":
-    servidor = Maestro("192.168.100.1", 65000)
-    servidor.addFile("pedidos.txt")
-    while True:
-        d = servidor.listenRequests()
-        if d is not None:
-            servidor.giveData(servidor.processData(d))
-        else:
-            break
-
-    print("")
-    print("="*50)
-    print("Información de la conexión")
-    print("="*50)
-    servidor.con.printSockInfo()
-
-
-
+        client = self.socket.getNewSocket()
+        self.socket.sockSend(str(handler), client[0])
+        self.socket.sockSend(",", client[0])
+        self.socket.sockSend(route, client[0])

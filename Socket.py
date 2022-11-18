@@ -12,12 +12,8 @@ import socketserver
 import errno
 
 class Socket: 
-    s_id = 0
     def __init__(self, sock = None):
         self.info = [] #Lista con la información del socket
-        self.s_id = Socket.s_id
-        Socket.s_id = Socket.s_id + 1
-        self.info.append("Socket id: " + str(self.s_id))
         self.conn = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         self.addr = ""
         if sock is None:
@@ -44,9 +40,14 @@ class Socket:
         self.addr = tup[1]
         self.info.append("Socket aceptando peticiones en: " + repr(tup))
 
-    def sockSend(self,msg):
+    def sockSend(self,msg, toClient = None):
         try:
-            self.sock.sendall(bytes(msg,'utf-8'))
+
+            if toClient is None:
+                self.sock.sendall(bytes(msg,'utf-8'))
+            else:
+                toClient.sendall(bytes(msg,'utf-8'))
+
             self.info.append("Realizando envio de  mensaje: " + str(msg))
         except BrokenPipeError as e:
             print(e)
@@ -62,6 +63,16 @@ class Socket:
             print(e)
             print("No se ha podido recibir mensaje.\n")
 
+    def sockClose(self):
+        self.info.append("Cerrando socket.")
+        self.conn.close()
+
+    def getNewSocket(self):
+        return (self.conn,self.addr)
+
+    def getInfo(self):
+        return self.info
+    
     def printSockInfo(self):
-        for i in self.info:
+        for i  in self.info:
             print(i)

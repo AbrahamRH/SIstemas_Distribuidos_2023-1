@@ -32,7 +32,7 @@ class Maestro:
         self.con.sockSend(route)
 
 if __name__ == "__main__":
-    servidor = Maestro("", 65000)
+    servidor = Maestro("192.168.100.1", 65000)
     servidor.addFile("pedidos.txt")
     while True:
         d = servidor.listenRequests()

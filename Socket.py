@@ -15,9 +15,11 @@ class Socket:
     s_id = 0
     def __init__(self, sock = None):
         self.info = [] #Lista con la información del socket
+        self.s_id = Socket.s_id
+        Socket.s_id = Socket.s_id + 1
         self.info.append("Socket id: " + str(self.s_id))
         self.conn = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        self.s_id = self.s_id + 1
+        self.addr = ""
         if sock is None:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         else:
@@ -31,7 +33,7 @@ class Socket:
 
     def sockBind(self, host, port):
         self.sock.bind((host,port))
-        self.sock.listen(1)
+        self.sock.listen()
         self.info.append("Socket en escucha en el puerto: " + str(port))
         self.info.append("Socket en escucha con el host: " + host)
 
@@ -39,6 +41,7 @@ class Socket:
         tup = tuple()
         tup = self.sock.accept()
         self.conn = tup[0]
+        self.addr = tup[1]
         self.info.append("Socket aceptando peticiones en: " + repr(tup))
 
     def sockSend(self,msg):

@@ -13,12 +13,12 @@ class Cliente:
         self.con.sockSend(filename)
         self.con.sockSend(",")
         self.con.sockSend(str(chunkIndex))
-        test = self.con.sockRecv()
-        return test
+        chunk = self.con.sockRecv()
+        return  chunk
 
 if __name__ == "__main__":
     cliente = Cliente()
-    cliente.requestConnection("",65000)
+    cliente.requestConnection("192.168.100.1",65000)
     cliente.requestChunkInfo("pedidos.txt",0)
 
     print("")

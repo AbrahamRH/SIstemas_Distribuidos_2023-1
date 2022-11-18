@@ -23,5 +23,5 @@ class Cliente:
         self.socket.sockSend(filename)
         self.socket.sockSend(",")
         self.socket.sockSend(str(chunkIndex))
-        chunk = self.socket.sockRecv()
+        chunk = self.socket.sockRecv(True)
         return  chunk

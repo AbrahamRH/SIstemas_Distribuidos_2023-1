@@ -1,4 +1,5 @@
 from ServidorMaestro import Maestro
+
 ADDR = "192.168.100.1"
 PORT = 65000
 SERVER = (ADDR,PORT)
@@ -6,8 +7,9 @@ SERVER = (ADDR,PORT)
 if __name__ == "__main__":
     servidor = Maestro(ADDR,PORT)
     servidor.addFile("pedidos.txt")
+    print(f"[SERVIDOR ESCUCHANDO] {SERVER} ")
+
     try: 
-        print(f"[SERVIDOR ESCUCHANDO] {SERVER} ")
         while True:
             d = servidor.listenRequests()
             if d is not None:
@@ -15,10 +17,14 @@ if __name__ == "__main__":
             else:
                 pass
     except KeyboardInterrupt as e:
-        print("Apagando servidor.")
+        print("\n[SERVIDOR APAGADO]")
+        servidor.socket.sockClose()
 
     print("")
     print("="*50)
     print("Información de la conexión")
     print("="*50)
-    servidor.socket.printSockInfo()
+    for log in servidor.socket.getInfo():
+        print(log)
+
+

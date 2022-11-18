@@ -8,9 +8,11 @@ if __name__ == "__main__":
     cliente = Cliente()
     cliente.requestConnection(ADDR,PORT)
     cliente.requestChunkInfo("pedidos.txt",0)
+    cliente.socket.sockClose()
     print("")
     print("="*50)
     print("Información de la conexión")
     print("="*50)
-    cliente.socket.printSockInfo()
+    for log in cliente.socket.getInfo():
+        print(log)
 
